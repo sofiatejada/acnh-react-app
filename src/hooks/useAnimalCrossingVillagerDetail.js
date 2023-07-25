@@ -8,6 +8,7 @@ export function useAnimalCrossingVillagerDetail() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        setLoading(true);
         fetchOneVillager(id)
             .then((villager) => setVillager(villager))
             .finally(() => setLoading(false));
@@ -22,6 +23,7 @@ export function useSingleAnimalCrossingVillageDetail(id) {
 
     useEffect(() => {
         if (id) {
+            setLoading(true);
             fetchOneVillager(id)
                 .then((villager) => setSingleVillager(villager))
                 .finally(() => setLoading(false));
