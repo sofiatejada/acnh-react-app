@@ -37,6 +37,7 @@ export default function VillagerList() {
             <form>
                 <input
                     onChange={handleChange}
+                    placeholder="search from 1 to 391"
                     type="text"
                 />
                 <button onClick={handleClick}>Search</button>
