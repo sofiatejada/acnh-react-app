@@ -1,28 +1,63 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Villager from './Villager';
 import acnhLoading from '../ac-newhorizons-loader.gif';
-import {
-    fetchAllVillagers,
-    fetchOneVillager,
-} from '../services/animalCrossingApi';
+import useVillagers from '../hooks/useAnimalCrossingVillagers';
+import { useSingleAnimalCrossingVillageDetail } from '../hooks/useAnimalCrossingVillagerDetail';
+import Header from './Header';
 
 export default function VillagerList() {
-    fetchAllVillagers();
-    fetchOneVillager(2);
+    const { villagerList, loading } = useVillagers();
+    const [singleId, setSingleId] = useState(null);
+    const [input, setInput] = useState(null);
+    const { singleVillager, singleLoading } =
+        useSingleAnimalCrossingVillageDetail(singleId);
+
+    if (loading) {
+        return (
+            <img
+                src={acnhLoading}
+                alt="acnh loading gif"
+            />
+        );
+    }
+
+    const handleChange = (e) => {
+        setInput(e.target.value);
+    };
+
+    const handleClick = (e) => {
+        e.preventDefault();
+        setSingleId(input);
+    };
 
     return (
         <div>
+            <Header />
             <h1>Animal Crossing Villagers</h1>
             <form>
-                <input type="text" />
-                <button>Search</button>
+                <input
+                    onChange={handleChange}
+                    type="text"
+                />
+                <button onClick={handleClick}>Search</button>
             </form>
             <main>
-                <img
-                    src={acnhLoading}
-                    alt="acnh loading gif"
-                />
-                <Villager />
+                <ul>
+                    {singleId === null ? (
+                        villagerList.map((villager) => (
+                            <li key={villager.id}>
+                                <Villager villagerData={villager} />
+                            </li>
+                        ))
+                    ) : singleLoading ? (
+                        <img
+                            src={acnhLoading}
+                            alt="acnh loading gif"
+                        />
+                    ) : (
+                        <Villager villagerData={singleVillager} />
+                    )}
+                </ul>
             </main>
         </div>
     );
