@@ -2,6 +2,7 @@ import React from 'react';
 import acnhLoading from '../ac-newhorizons-loader.gif';
 import { useAnimalCrossingVillagerDetail } from '../hooks/useAnimalCrossingVillagerDetail';
 import Villager from './Villager';
+import Header from './Header';
 
 export default function VillagerDetail() {
     const { villager, loading } = useAnimalCrossingVillagerDetail();
@@ -17,6 +18,7 @@ export default function VillagerDetail() {
 
     return (
         <div>
+            <Header />
             <Villager villagerData={villager} />
         </div>
     );
