@@ -1,8 +1,15 @@
 import React from 'react';
 import Villager from './Villager';
 import acnhLoading from '../ac-newhorizons-loader.gif';
+import {
+    fetchAllVillagers,
+    fetchOneVillager,
+} from '../services/animalCrossingApi';
 
 export default function VillagerList() {
+    fetchAllVillagers();
+    fetchOneVillager(2);
+
     return (
         <div>
             <h1>Animal Crossing Villagers</h1>
