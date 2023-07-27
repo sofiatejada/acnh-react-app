@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 export default function Villager({ villagerData }) {
     return (
-        <div>
+        <>
             <Link
                 key={villagerData.id}
                 to={`${villagerData.id}`}
@@ -25,6 +25,6 @@ export default function Villager({ villagerData }) {
                     <li>Catch-phrase: {villagerData.catchphrase}</li>
                 </ul>
             </article>
-        </div>
+        </>
     );
 }

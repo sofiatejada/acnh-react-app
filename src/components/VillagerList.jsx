@@ -4,6 +4,7 @@ import acnhLoading from '../ac-newhorizons-loader.gif';
 import useVillagers from '../hooks/useAnimalCrossingVillagers';
 import { useSingleAnimalCrossingVillageDetail } from '../hooks/useAnimalCrossingVillagerDetail';
 import Header from './Header';
+import Pagination from './Pagination';
 
 export default function VillagerList() {
     const { villagerList, loading } = useVillagers();
@@ -11,6 +12,31 @@ export default function VillagerList() {
     const [input, setInput] = useState(null);
     const { singleVillager, singleLoading } =
         useSingleAnimalCrossingVillageDetail(singleId);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [animalsPerPage] = useState(5);
+
+    const indexOfLastAnimal = currentPage * animalsPerPage;
+    const indexOfFirstAnimal = indexOfLastAnimal - animalsPerPage;
+
+    const currentAnimals = villagerList
+        ? villagerList.slice(indexOfFirstAnimal, indexOfLastAnimal)
+        : [];
+
+    const previousPage = () => {
+        if (currentPage !== 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    const nextPage = () => {
+        if (currentPage !== Math.ceil(villagerList.length / animalsPerPage)) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
 
     if (loading) {
         return (
@@ -31,7 +57,7 @@ export default function VillagerList() {
     };
 
     return (
-        <div>
+        <>
             <Header />
             <h1>Animal Crossing Villagers</h1>
             <form>
@@ -45,7 +71,7 @@ export default function VillagerList() {
             <main>
                 <ul>
                     {singleId === null ? (
-                        villagerList.map((villager) => (
+                        currentAnimals.map((villager) => (
                             <li key={villager.id}>
                                 <Villager villagerData={villager} />
                             </li>
@@ -58,8 +84,16 @@ export default function VillagerList() {
                     ) : (
                         <Villager villagerData={singleVillager} />
                     )}
+                    <Pagination
+                        previousPage={previousPage}
+                        nextPage={nextPage}
+                        animalsPerPage={animalsPerPage}
+                        villagerList={villagerList.length}
+                        paginate={paginate}
+                        currentPage={currentPage}
+                    />
                 </ul>
             </main>
-        </div>
+        </>
     );
 }

@@ -30,7 +30,5 @@ export function useSingleAnimalCrossingVillageDetail(id) {
         }
     }, [id]);
 
-    console.log(singleVillager);
-
     return { singleVillager, singleLoading };
 }
